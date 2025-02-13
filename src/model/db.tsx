@@ -5,7 +5,7 @@ import mongoose, { Schema, Document } from "mongoose";
 export interface User extends Document {
     username: string;
     email: string;
-    phone?: string;
+    phone: string;
     password: string;
     profilePic?: string;
     bio?: string;
@@ -28,7 +28,8 @@ const UserSchema: Schema<User> = new Schema(
         phone: { 
             type: String, 
             unique: true, 
-            sparse: true },
+            sparse: true,
+            match: /^[0-9]+$/ },
         password: { 
             type: String, 
             required: true },
