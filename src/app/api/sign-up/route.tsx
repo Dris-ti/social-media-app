@@ -57,7 +57,7 @@ export async function POST(req: Request) {
 
         const code = Math.floor(100000 + Math.random() * 999999).toString();
         const expiry = new Date(); // expiry stores an object from new Date(). That's why it can be modified later.
-        expiry.setHours(expiry.getMinutes() + 3)
+        expiry.setMinutes(expiry.getMinutes() + parseInt(process.env.EMAIL_REG_VERIFYCODE_EXPIRY || '3'));
         const hassedPass = (await bcrypt.hash(password, 10)).toString()
 
         const signupData = new UserModel({
