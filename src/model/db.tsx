@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
+import { boolean, number } from "zod";
 
 // ----------------- USER ---------------------------
 
@@ -12,6 +13,10 @@ export interface User extends Document {
     isPrivate: boolean;
     role: "user" | "moderator" | "admin";
     createdAt: Date;
+    updatedAt: Date;
+    verifyCode?: number;
+    verifyCodeExpiry?: Date;
+    isVerified: boolean;
 }
 
 const UserSchema: Schema<User> = new Schema(
@@ -27,8 +32,6 @@ const UserSchema: Schema<User> = new Schema(
             unique: true },
         phone: { 
             type: String, 
-            unique: true, 
-            sparse: true,
             match: /^[0-9]+$/ },
         password: { 
             type: String, 
@@ -46,8 +49,25 @@ const UserSchema: Schema<User> = new Schema(
             type: String, 
             enum: ["user", "moderator", "admin"], 
             default: "user" },
-    },
-    { timestamps: true }
+        verifyCode:{
+            type: Number
+        },
+        verifyCodeExpiry:{
+            type: Date
+        },
+        isVerified: {
+            type: Boolean,
+            default: false
+        },
+        createdAt:{
+            type: Date,
+            default: Date.now(),
+        },
+        updatedAt:{
+            type: Date
+        }
+
+    }
 );
 
 export const UserModel = (mongoose.models.User as mongoose.Model<User>) || mongoose.model<User>("User", UserSchema);

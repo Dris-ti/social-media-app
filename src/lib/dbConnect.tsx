@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+require("dotenv").config();
 
 type ConnectionObject = {
     isConnected ?: number
@@ -14,7 +15,7 @@ async function dbConnect() : Promise<void> {
     }
 
     try{
-        const db = await mongoose.connect(process.env.MONGODB_URI || "")
+        const db = await mongoose.connect(process.env.MONGODB_URI || "");
 
         connection.isConnected = db.connections[0].readyState;
 

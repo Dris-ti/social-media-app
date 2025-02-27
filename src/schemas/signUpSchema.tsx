@@ -28,5 +28,9 @@ export const signUpSchema = z.object({
 
     role: z.string(),
     
-    createdAt: z.date()
+    createdAt: z.date(),
+    updatedAt: z.date(),
+    verifyCode: z.number().min(6).max(6),
+    verifyCodeExpiry: z.date(),
+    isVarified: z.boolean()
 })
